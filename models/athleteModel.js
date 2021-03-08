@@ -1,0 +1,7 @@
+class Athlete
+{
+    constructor()
+    {
+        
+    }
+}
