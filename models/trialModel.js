@@ -5,3 +5,5 @@ class Trial
         
     }
 }
+
+module.exports = Trial;
