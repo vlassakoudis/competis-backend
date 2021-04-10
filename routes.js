@@ -1,10 +1,9 @@
 let express = require('express');
 let router = express.Router();
 
-let athleteController = require('./controllers/athleteController');
 let trialController = require('./controllers/trialController')
 
-let athleteControllerAPI = require('./controllers/athleteControllerAPI');
+let athleteController = require('./controllers/athleteController');
 
 var bodyParser = require('body-parser');
 const { request } = require('express');
@@ -13,31 +12,24 @@ router.use(bodyParser.json());
 
 
 // Athlete
-router.get('/athlete/create', athleteController.createAthlete);
-router.get('/athlete/getAll', athleteController.getAllAthlete);
-router.get('/athlete/delete', athleteController.deleteAthlete);
-router.get('/athlete/edit', athleteController.editAthlete);
-router.get('/athlete/search', athleteController.searchAthlete);
-router.get('/athlete/getByTrial', athleteController.getAthleteByTrial);
+router.get('/api/athlete', athleteController.getAllAthlete);
+router.get('/api/athlete/:id', athleteController.getAthlete);
+router.post('/api/athlete', athleteController.createAthlete);
+router.delete('/api/athlete/:id', athleteController.deleteAthlete);
+router.put('/api/athlete/', athleteController.editAthlete);
 
-// API athelet
-router.get('/api/athlete', athleteControllerAPI.getAllAthlete);
-router.get('/api/athlete/:id', athleteControllerAPI.getAthlete);
-router.post('/api/athlete', athleteControllerAPI.createAthlete);
-router.delete('/api/athlete/:id', athleteControllerAPI.deleteAthlete);
-router.put('/api/athlete/', athleteControllerAPI.editAthlete);
-
-router.get('/api/athletesearch', athleteControllerAPI.searchAthlete); 
-router.get('/api/athletebytrial', athleteControllerAPI.getAthleteByTrial);
+router.get('/api/athletesearch', athleteController.searchAthlete); 
+router.get('/api/athletebytrial', athleteController.getAthleteByTrial);
 
 
 // Trial
+router.get('/api/trial/', trialController.getAllTrial);
+router.get('/api/trial/:id', trialController.getTrialById);
+router.post('/api/trial', trialController.createTrial);
+router.delete('/api/trial/:id', trialController.deleteTrial);
+router.put('/api/trial', trialController.editTrial);
 
-router.get('/trial/create', trialController.createTrial);
-router.get('/trial/getAll', trialController.getAllTrial);
-router.get('/trial/getByGender', trialController.getTrialByGender);
-router.get('/trial/edit', trialController.editTrial);
-router.get('/trial/delete', trialController.deleteTrial);
+router.get('/api/trialByGender', trialController.getTrialByGender);
 
 
 module.exports = router;
