@@ -8,7 +8,7 @@ let dbConnexion = require('../dbConnexion').dbConnexion;
 
 
 exports.createTrial = function(request, response){
-
+    
 }
 
 exports.getAllTrial = function(request, response){

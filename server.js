@@ -3,6 +3,7 @@ let app = express();
 
 let routes = require('./routes');
 app.use('/',routes);
+app.use(express.json());
 
 let dbConnexion = require('./dbConnexion');
 

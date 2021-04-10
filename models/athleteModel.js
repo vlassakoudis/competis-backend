@@ -12,7 +12,7 @@ class Athlete
 
     getData()
     {
-        return [this.lastName.toString(),this.firstName.toString(),this.birthYear.toString(),this.club.toString(),this.gender.toString()];
+        return {"lastName":this.lastName.toString(),"firstName":this.firstName.toString(),"birthYear":this.birthYear.toString(),"club":this.club.toString(),"gender":this.gender.toString()};
     }
 }
 
