@@ -12,6 +12,8 @@ router.use(bodyParser.json());
 
 
 // Athlete
+
+
 router.get('/api/athlete', athleteController.getAllAthlete);
 router.get('/api/athlete/:id', athleteController.getAthlete);
 router.post('/api/athlete', athleteController.createAthlete);
