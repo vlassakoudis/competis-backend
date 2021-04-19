@@ -6,7 +6,6 @@ let Test = require('../models/testModel');
 let dbConnexion = require('../dbConnexion');
 
 
-
 exports.getAllAthlete = function(request, response){
     dbConnexion.dbConnexion.query("SELECT * FROM Athlete;", function(error, resultSQL){
         if(error){

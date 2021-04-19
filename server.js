@@ -1,11 +1,6 @@
 let express = require('express');
 let app = express();
 
-let routes = require('./routes');
-app.use('/',routes);
-app.use(express.json());
-let dbConnexion = require('./dbConnexion');
-
 
 // Cors
 app.all('/*', function(req, res, next) {
@@ -16,6 +11,12 @@ app.all('/*', function(req, res, next) {
     res.status(200).end();
     } else { next(); }
 });
+
+
+let routes = require('./routes');
+app.use('/',routes);
+app.use(express.json());
+let dbConnexion = require('./dbConnexion');
 
 
 // Lauch App
