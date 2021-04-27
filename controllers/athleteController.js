@@ -85,7 +85,15 @@ exports.searchAthlete = function(request, response){
 }
 
 exports.getAthleteByTrial = function(request, response){
-
+    let idAthlete = request.params.id;
+    dbConnexion.dbConnexion.query("SELECT t.* FROM Trial t INNER JOIN Participation p ON p.trialId = t.idTrial WHERE p.AthleteId = ?;", idAthlete, function(error, resultSQL){
+        if(error){
+            response.status(400).json({'message' : error});
+        }
+        else{
+            response.status(200).json(resultSQL);
+        }
+    }); 
 }
 
 

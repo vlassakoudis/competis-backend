@@ -19,7 +19,7 @@ router.delete('/api/athlete/:id', athleteController.deleteAthlete);
 router.put('/api/athlete/', athleteController.editAthlete);
 
 router.get('/api/athletesearch', athleteController.searchAthlete); 
-router.get('/api/athletebytrial', athleteController.getAthleteByTrial);
+router.get('/api/athletebytrial/:id', athleteController.getAthleteByTrial);
 
 
 // Trial
