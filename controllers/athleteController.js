@@ -3,6 +3,7 @@ const { request } = require("express");
 
 let Athlete = require('../models/athleteModel');
 let Test = require('../models/testModel');
+let Participation = require('../models/participationModel');
 let dbConnexion = require('../dbConnexion');
 
 
@@ -47,23 +48,25 @@ exports.createAthlete = function(request, response){
 
 exports.deleteAthlete = function(request, response){
     let idAthlete = request.params.id;
-    let sqlStatement = "DELETE FROM Athlete WHERE idAthlete = ?";
+    let sqlStatementParticipation = "DELETE FROM Participation WHERE athleteId = ?;";
+    let sqlStatementAthlete = "DELETE FROM Athlete WHERE idAthlete = ?";
 
-    dbConnexion.dbConnexion.query(sqlStatement,idAthlete,function(error, resultSQL){
+    dbConnexion.dbConnexion.query(sqlStatementParticipation,idAthlete,function(error, resultSQL){
         if(error){
             response.status(400).json({'message' : error});
         }
         else{
-            if(resultSQL.affectedRows == 0)
-            {
-                response.status(400).json({'message' : "Erreur : id introuvable"});
-            }
-            else
-            {
-                response.status(200).json(resultSQL);
-            }
+            dbConnexion.dbConnexion.query(sqlStatementAthlete,idAthlete,function(error, resultSQL){
+                if(error){
+                    response.status(400).json({'message' : error});
+                }
+                else{
+                    response.status(200).json(resultSQL);
+                }
+            }); 
         }
     }); 
+
 }
 
 exports.editAthlete = function(request, response){
@@ -87,6 +90,20 @@ exports.searchAthlete = function(request, response){
 exports.getAthleteByTrial = function(request, response){
     let idAthlete = request.params.id;
     dbConnexion.dbConnexion.query("SELECT t.* FROM Trial t INNER JOIN Participation p ON p.trialId = t.idTrial WHERE p.AthleteId = ?;", idAthlete, function(error, resultSQL){
+        if(error){
+            response.status(400).json({'message' : error});
+        }
+        else{
+            response.status(200).json(resultSQL);
+        }
+    }); 
+}
+
+exports.createAthleteParticipation = function(request, response){
+    let participationRequest = new Participation(request.body.idTrial,request.body.idAthlete);
+    let sqlStatement = "INSERT INTO Participation SET ? ;";
+
+    dbConnexion.dbConnexion.query(sqlStatement,participationRequest.getData(),function(error, resultSQL){
         if(error){
             response.status(400).json({'message' : error});
         }

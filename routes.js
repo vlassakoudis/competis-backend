@@ -20,7 +20,7 @@ router.put('/api/athlete/', athleteController.editAthlete);
 
 router.get('/api/athletesearch', athleteController.searchAthlete); 
 router.get('/api/athletebytrial/:id', athleteController.getAthleteByTrial);
-
+router.post('/api/athleteTrial/',athleteController.createAthleteParticipation)
 
 // Trial
 router.get('/api/trial/', trialController.getAllTrial);
