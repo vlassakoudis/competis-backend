@@ -6,7 +6,7 @@ let dbConnexion = require('../dbConnexion');
 
 
 exports.getAllTrial = function(request, response){
-    dbConnexion.dbConnexion.query("SELECT * FROM Trial;", function(error, resultSQL){
+    dbConnexion.dbConnexion.query("SELECT * FROM Trial ORDER BY startHour;", function(error, resultSQL){
         if(error){
             response.status(400).json({'message' : error});
         }
@@ -45,21 +45,22 @@ exports.createTrial = function(request, response){
 
 exports.deleteTrial = function(request, response){
     let idTrial = request.params.id;
-    let sqlStatement = "DELETE FROM Trial WHERE idTrial = ?";
+    let sqlStatementParticipation = "DELETE FROM Participation WHERE trialId = ?;";
+    let sqlStatementTrial = "DELETE FROM Trial WHERE idTrial = ?";
 
-    dbConnexion.dbConnexion.query(sqlStatement,idTrial,function(error, resultSQL){
+    dbConnexion.dbConnexion.query(sqlStatementParticipation,idTrial,function(error, resultSQL){
         if(error){
             response.status(400).json({'message' : error});
         }
         else{
-            if(resultSQL.affectedRows == 0)
-            {
-                response.status(400).json({'message' : "Erreur : id introuvable"});
-            }
-            else
-            {
-                response.status(200).json(resultSQL);
-            }
+            dbConnexion.dbConnexion.query(sqlStatementTrial,idTrial,function(error, resultSQL){
+                if(error){
+                    response.status(400).json({'message' : error});
+                }
+                else{
+                    response.status(200).json(resultSQL);
+                }
+            }); 
         }
     }); 
 }
@@ -78,7 +79,14 @@ exports.editTrial = function(request, response){
     }); 
 }
 
-
-exports.getTrialByGender = function(request, response){
-
+exports.getTrialByAthlete = function(request, response){
+    let idTrial = request.params.id;
+    dbConnexion.dbConnexion.query("SELECT a.* FROM Athlete a INNER JOIN Participation p ON p.athleteId = a.idAthlete WHERE p.trialId = ?;", idTrial, function(error, resultSQL){
+        if(error){
+            response.status(400).json({'message' : error});
+        }
+        else{
+            response.status(200).json(resultSQL);
+        }
+    }); 
 }

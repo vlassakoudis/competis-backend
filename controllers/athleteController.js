@@ -121,21 +121,37 @@ exports.createAthleteParticipation = function(request, response){
 exports.updateAthleteParticipation = function(request, response){
     let participations = [];
     let idAthlete = request.params.id;
+    let sqlStatement;
 
-    request.body.forEach(p => {
-        participations.push([p.trialId,p.athleteId]);
-    });
+    if(request.body.length == 0){
+        sqlStatement = "DELETE FROM Participation WHERE athleteId = ?";
 
-    let sqlStatement = "DELETE FROM Participation WHERE athleteId = ?; INSERT INTO Participation(trialId,athleteId) VALUES ? ;";
+        dbConnexion.dbConnexion.query(sqlStatement,idAthlete,function(error, resultSQL){
+            if(error){
+                response.status(400).json({'message' : error});
+            }
+            else{
+                response.status(200).json(resultSQL);
+            }
+        }); 
+    }
+    else{
+        request.body.forEach(p => {
+            participations.push([p.trialId,p.athleteId]);
+        });
+        sqlStatement = "DELETE FROM Participation WHERE athleteId = ?; INSERT INTO Participation(trialId,athleteId) VALUES ? ;";
 
-    dbConnexion.dbConnexion.query(sqlStatement,[idAthlete,participations],function(error, resultSQL){
-        if(error){
-            response.status(400).json({'message' : error});
-        }
-        else{
-            response.status(200).json(resultSQL);
-        }
-    }); 
+        dbConnexion.dbConnexion.query(sqlStatement,[idAthlete,participations],function(error, resultSQL){
+            if(error){
+                response.status(400).json({'message' : error});
+            }
+            else{
+                response.status(200).json(resultSQL);
+            }
+        }); 
+    }
+
+
 }
 
 

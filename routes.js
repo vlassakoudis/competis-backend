@@ -30,7 +30,8 @@ router.post('/api/trial', trialController.createTrial);
 router.delete('/api/trial/:id', trialController.deleteTrial);
 router.put('/api/trial', trialController.editTrial);
 
-router.get('/api/trialByGender', trialController.getTrialByGender);
+router.get('/api/trialbyathlete/:id', trialController.getTrialByAthlete);
+//router.get('/api/trialByGender', trialController.getTrialByGender);
 
 
 module.exports = router;
