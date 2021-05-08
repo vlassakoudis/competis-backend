@@ -5,7 +5,8 @@ let dbConnexion = mysql.createConnection({
     port : '49153',
     user : 'root',
     password : 'yannick',
-    database : 'competis'
+    database : 'competis',
+    multipleStatements: true
 })
 
 dbConnexion.connect(function(error) { if (error) console.log("Erreur connexion base de données : " + error);});

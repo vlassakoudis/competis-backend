@@ -40,7 +40,7 @@ exports.createTrial = function(request, response){
         else{
             response.status(200).json(resultSQL);
         }
-    }); 
+    });
 }
 
 exports.deleteTrial = function(request, response){
@@ -77,7 +77,6 @@ exports.editTrial = function(request, response){
         }
     }); 
 }
-
 
 
 exports.getTrialByGender = function(request, response){

@@ -100,10 +100,15 @@ exports.getAthleteByTrial = function(request, response){
 }
 
 exports.createAthleteParticipation = function(request, response){
-    let participationRequest = new Participation(request.body.idTrial,request.body.idAthlete);
-    let sqlStatement = "INSERT INTO Participation SET ? ;";
+    let participations = [];
 
-    dbConnexion.dbConnexion.query(sqlStatement,participationRequest.getData(),function(error, resultSQL){
+    request.body.forEach(p => {
+        participations.push([p.trialId,p.athleteId]);
+    });
+
+    let sqlStatement = "INSERT INTO Participation(trialId,athleteId) VALUES ? ;";
+
+    dbConnexion.dbConnexion.query(sqlStatement,[participations],function(error, resultSQL){
         if(error){
             response.status(400).json({'message' : error});
         }
@@ -112,6 +117,28 @@ exports.createAthleteParticipation = function(request, response){
         }
     }); 
 }
+
+exports.updateAthleteParticipation = function(request, response){
+    let participations = [];
+    let idAthlete = request.params.id;
+
+    request.body.forEach(p => {
+        participations.push([p.trialId,p.athleteId]);
+    });
+
+    let sqlStatement = "DELETE FROM Participation WHERE athleteId = ?; INSERT INTO Participation(trialId,athleteId) VALUES ? ;";
+
+    dbConnexion.dbConnexion.query(sqlStatement,[idAthlete,participations],function(error, resultSQL){
+        if(error){
+            response.status(400).json({'message' : error});
+        }
+        else{
+            response.status(200).json(resultSQL);
+        }
+    }); 
+}
+
+
 
 
 
